@@ -36,6 +36,7 @@ namespace DATN.Data
         public DbSet<ChiTietCungCap> ChiTietCungCaps { get; set; }
         public DbSet<DinhLuongMonAn> DinhLuongMonAns { get; set; }
         public DbSet<PhieuAn> PhieuAns { get; set; }
+        public DbSet<HocSinh> HocSinhs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuider)
         {
             modelBuider.ApplyConfiguration(new UserConfiguration());
@@ -59,6 +60,7 @@ namespace DATN.Data
             modelBuider.ApplyConfiguration(new ChiTierCungCapConfiguration());
             modelBuider.ApplyConfiguration(new BoPhanConfiguration());
             modelBuider.ApplyConfiguration(new AdminConfiguration());
+            modelBuider.ApplyConfiguration(new HocSinhConfiguration());
         }
     }
 }

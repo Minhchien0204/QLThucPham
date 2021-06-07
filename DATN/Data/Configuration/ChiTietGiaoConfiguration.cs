@@ -17,10 +17,14 @@ namespace DATN.Data.Configuration
             // thiet lap quan he 1 - n
             builder.HasOne<PhieuGiao>(ctg => ctg.PhieuGiao)
                 .WithMany(pg => pg.ChiTietGiaos)
-                .HasForeignKey(ctg => ctg.SoPhieuGiao);
+                .HasForeignKey(ctg => ctg.SoPhieuGiao)
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.HasOne<ThucPham>(ctg => ctg.ThucPham)
                 .WithMany(tp => tp.ChiTietGiaos)
                 .HasForeignKey(ctg => ctg.MaThucPham);
+            builder.HasOne<NhaCungCap>(ctg => ctg.NhaCungCap)
+             .WithMany(ncc => ncc.ChiTietGiaos)
+             .HasForeignKey(ctg => ctg.MaNhaCungCap);
         }
     }
 }

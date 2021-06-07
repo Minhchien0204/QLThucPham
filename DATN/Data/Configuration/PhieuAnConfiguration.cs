@@ -16,7 +16,8 @@ namespace DATN.Data.Configuration
             //thiet lap quan he 1- n
             builder.HasOne<GiaoVien>(pa => pa.GiaoVien)
                 .WithMany(gv => gv.PhieuAns)
-                .HasForeignKey(pa => pa.MaGiaoVien);
+                .HasForeignKey(pa => pa.MaGV)
+                .OnDelete(DeleteBehavior.ClientSetNull);
            
         }
     }

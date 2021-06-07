@@ -17,7 +17,8 @@ namespace DATN.Data.Configuration
             // thiet lap quan he
             builder.HasOne<PhieuKiemKe>(ctkk => ctkk.PhieuKiemKe)
                 .WithMany(pkk => pkk.ChiTietKiemKes)
-                .HasForeignKey(ctkk => ctkk.SoPhieuKiemKe);
+                .HasForeignKey(ctkk => ctkk.SoPhieuKiemKe)
+                .OnDelete(DeleteBehavior.ClientCascade);
             builder.HasOne<ThucPham>(ctkk => ctkk.ThucPham)
                 .WithMany(tp => tp.ChiTietKiemKes)
                 .HasForeignKey(ctkk => ctkk.MaThucPham);

@@ -8,12 +8,10 @@ namespace DATN.Entities
     public class DinhLuongMonAn
     {
         public int Id { get; set; }
-        public string MaMonAn { get; set; }
-        public DateTime Ngay { get; set; }
-        public string BuaAn { get; set; }
+        public string? MaMonAn { get; set; }
         public string MaThucPham { get; set; }
         public float SoLuong { get; set; }
-        public MonAn MonAn { get; set; }
-        public ThucPham ThucPham { get; set; }
+        public virtual MonAn MonAn { get; set; }
+        public virtual ThucPham ThucPham { get; set; }
     }
 }

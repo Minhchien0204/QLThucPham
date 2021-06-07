@@ -17,7 +17,8 @@ namespace DATN.Data.Configuration
             //thiet lap quan he
             builder.HasOne<NhanVien>(pyc => pyc.NhanVien)
                 .WithMany(nv => nv.PhieuYeuCaus)
-                .HasForeignKey(pyc => pyc.MaNhanVien);
+                .HasForeignKey(pyc => pyc.MaNhanVien)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

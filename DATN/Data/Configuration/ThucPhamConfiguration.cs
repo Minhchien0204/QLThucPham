@@ -12,8 +12,8 @@ namespace DATN.Data.Configuration
     {
         public void Configure(EntityTypeBuilder<ThucPham> builder)
         {
-            builder.HasKey(tp => tp.MaThuPham);
-            builder.Property(tp => tp.MaThuPham).IsRequired();
+            builder.HasKey(tp => tp.MaThucPham);
+            builder.Property(tp => tp.MaThucPham).IsRequired();
         }
     }
 }

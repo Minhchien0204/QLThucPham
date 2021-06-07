@@ -17,10 +17,8 @@ namespace DATN.Data.Configuration
             //thiet lap quan he 1- n
             builder.HasOne<NhanVien>(pcc => pcc.NhanVien)
                 .WithMany(nv => nv.PhieuCungCaps)
-                .HasForeignKey(pcc => pcc.MaNhanVien);
-            builder.HasOne<NhaCungCap>(pcc => pcc.NhaCungCap)
-                .WithMany(ncc => ncc.PhieuCungCaps)
-                .HasForeignKey(pcc => pcc.MaNhaCungCap);
+                .HasForeignKey(pcc => pcc.MaNhanVien)
+                .OnDelete(DeleteBehavior.ClientSetNull);
             
         }
     }

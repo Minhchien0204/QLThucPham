@@ -13,7 +13,6 @@ namespace DATN.Data.Configuration
         public void Configure(EntityTypeBuilder<NhaCungCap> builder)
         {
             builder.HasKey(ncc => ncc.MaNhaCungCap);
-            builder.Property(ncc => ncc.MaNhaCungCap).IsRequired();
         }
     }
 }

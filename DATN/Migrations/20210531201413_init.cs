@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DATN.Migrations
 {
-    public partial class create_Db : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,7 +24,8 @@ namespace DATN.Migrations
                 columns: table => new
                 {
                     MaLop = table.Column<string>(nullable: false),
-                    TenLop = table.Column<string>(maxLength: 10, nullable: true)
+                    TenLop = table.Column<string>(maxLength: 10, nullable: true),
+                    SoLuong = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,13 +50,13 @@ namespace DATN.Migrations
                 name: "ThucPhams",
                 columns: table => new
                 {
-                    MaThuPham = table.Column<string>(nullable: false),
+                    MaThucPham = table.Column<string>(nullable: false),
                     TenThucPham = table.Column<string>(nullable: true),
                     DonVi = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ThucPhams", x => x.MaThuPham);
+                    table.PrimaryKey("PK_ThucPhams", x => x.MaThucPham);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +78,30 @@ namespace DATN.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HocSinhs",
+                columns: table => new
+                {
+                    Idhs = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HoTen = table.Column<string>(nullable: true),
+                    DiaChi = table.Column<string>(nullable: true),
+                    NgaySinh = table.Column<DateTime>(nullable: false),
+                    GioiTinh = table.Column<bool>(nullable: false),
+                    DienThoai = table.Column<string>(nullable: true),
+                    MaLop = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HocSinhs", x => x.Idhs);
+                    table.ForeignKey(
+                        name: "FK_HocSinhs_Classes_MaLop",
+                        column: x => x.MaLop,
+                        principalTable: "Classes",
+                        principalColumn: "MaLop",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -155,7 +180,7 @@ namespace DATN.Migrations
                 columns: table => new
                 {
                     SophieuAn = table.Column<string>(nullable: false),
-                    MaGiaoVien = table.Column<string>(nullable: true),
+                    MaGV = table.Column<string>(nullable: true),
                     NgayLap = table.Column<DateTime>(nullable: false),
                     SoLuong = table.Column<int>(nullable: false),
                     TrangThai = table.Column<bool>(nullable: false),
@@ -165,8 +190,8 @@ namespace DATN.Migrations
                 {
                     table.PrimaryKey("PK_PhieuAns", x => x.SophieuAn);
                     table.ForeignKey(
-                        name: "FK_PhieuAns_GiaoViens_MaGiaoVien",
-                        column: x => x.MaGiaoVien,
+                        name: "FK_PhieuAns_GiaoViens_MaGV",
+                        column: x => x.MaGV,
                         principalTable: "GiaoViens",
                         principalColumn: "MaGV",
                         onDelete: ReferentialAction.Restrict);
@@ -178,7 +203,8 @@ namespace DATN.Migrations
                 {
                     MaMonAn = table.Column<string>(nullable: false),
                     TenMonAn = table.Column<string>(nullable: true),
-                    MaNhanVien = table.Column<string>(nullable: true)
+                    MaNhanVien = table.Column<string>(nullable: true),
+                    BuaAn = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,7 +222,6 @@ namespace DATN.Migrations
                 columns: table => new
                 {
                     SoPhieuCugCap = table.Column<string>(nullable: false),
-                    MaNhaCungCap = table.Column<string>(nullable: true),
                     MaNhanVien = table.Column<string>(nullable: true),
                     NgayLap = table.Column<DateTime>(nullable: false),
                     TrangThai = table.Column<bool>(nullable: false),
@@ -206,40 +231,7 @@ namespace DATN.Migrations
                 {
                     table.PrimaryKey("PK_PhieuCungCaps", x => x.SoPhieuCugCap);
                     table.ForeignKey(
-                        name: "FK_PhieuCungCaps_NhaCungCaps_MaNhaCungCap",
-                        column: x => x.MaNhaCungCap,
-                        principalTable: "NhaCungCaps",
-                        principalColumn: "MaNhaCungCap",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_PhieuCungCaps_NhanViens_MaNhanVien",
-                        column: x => x.MaNhanVien,
-                        principalTable: "NhanViens",
-                        principalColumn: "MaNhanVien",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PhieuGiaos",
-                columns: table => new
-                {
-                    SoPhieuGiao = table.Column<string>(nullable: false),
-                    MaNhanVien = table.Column<string>(nullable: true),
-                    MaNhaCungCap = table.Column<string>(nullable: true),
-                    NgayLap = table.Column<DateTime>(nullable: false),
-                    GhiChu = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PhieuGiaos", x => x.SoPhieuGiao);
-                    table.ForeignKey(
-                        name: "FK_PhieuGiaos_NhaCungCaps_MaNhaCungCap",
-                        column: x => x.MaNhaCungCap,
-                        principalTable: "NhaCungCaps",
-                        principalColumn: "MaNhaCungCap",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PhieuGiaos_NhanViens_MaNhanVien",
                         column: x => x.MaNhanVien,
                         principalTable: "NhanViens",
                         principalColumn: "MaNhanVien",
@@ -294,8 +286,6 @@ namespace DATN.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     MaMonAn = table.Column<string>(nullable: true),
-                    Ngay = table.Column<DateTime>(nullable: false),
-                    BuaAn = table.Column<string>(nullable: true),
                     MaThucPham = table.Column<string>(nullable: true),
                     SoLuong = table.Column<float>(nullable: false)
                 },
@@ -312,7 +302,7 @@ namespace DATN.Migrations
                         name: "FK_DinhLuongMonAns_ThucPhams_MaThucPham",
                         column: x => x.MaThucPham,
                         principalTable: "ThucPhams",
-                        principalColumn: "MaThuPham",
+                        principalColumn: "MaThucPham",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -324,16 +314,23 @@ namespace DATN.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SoPhieuCungCap = table.Column<string>(nullable: true),
                     MaThucPham = table.Column<string>(nullable: true),
+                    MaNhaCungCap = table.Column<string>(nullable: true),
                     SoLuong = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChiTietCungCaps", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_ChiTietCungCaps_NhaCungCaps_MaNhaCungCap",
+                        column: x => x.MaNhaCungCap,
+                        principalTable: "NhaCungCaps",
+                        principalColumn: "MaNhaCungCap",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_ChiTietCungCaps_ThucPhams_MaThucPham",
                         column: x => x.MaThucPham,
                         principalTable: "ThucPhams",
-                        principalColumn: "MaThuPham",
+                        principalColumn: "MaThucPham",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ChiTietCungCaps_PhieuCungCaps_SoPhieuCungCap",
@@ -344,30 +341,29 @@ namespace DATN.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChiTietGiaos",
+                name: "PhieuGiaos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SoPhieuGiao = table.Column<string>(nullable: true),
-                    MaThucPham = table.Column<string>(nullable: true),
-                    SoLuong = table.Column<float>(nullable: false),
-                    DonGia = table.Column<decimal>(nullable: false)
+                    SoPhieuGiao = table.Column<string>(nullable: false),
+                    MaNhanVien = table.Column<string>(nullable: true),
+                    SoPhieuCungCap = table.Column<string>(nullable: true),
+                    NgayLap = table.Column<DateTime>(nullable: false),
+                    GhiChu = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChiTietGiaos", x => x.Id);
+                    table.PrimaryKey("PK_PhieuGiaos", x => x.SoPhieuGiao);
                     table.ForeignKey(
-                        name: "FK_ChiTietGiaos_ThucPhams_MaThucPham",
-                        column: x => x.MaThucPham,
-                        principalTable: "ThucPhams",
-                        principalColumn: "MaThuPham",
+                        name: "FK_PhieuGiaos_NhanViens_MaNhanVien",
+                        column: x => x.MaNhanVien,
+                        principalTable: "NhanViens",
+                        principalColumn: "MaNhanVien",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ChiTietGiaos_PhieuGiaos_SoPhieuGiao",
-                        column: x => x.SoPhieuGiao,
-                        principalTable: "PhieuGiaos",
-                        principalColumn: "SoPhieuGiao",
+                        name: "FK_PhieuGiaos_PhieuCungCaps_SoPhieuCungCap",
+                        column: x => x.SoPhieuCungCap,
+                        principalTable: "PhieuCungCaps",
+                        principalColumn: "SoPhieuCugCap",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -389,7 +385,7 @@ namespace DATN.Migrations
                         name: "FK_ChiTietKiemKes_ThucPhams_MaThucPham",
                         column: x => x.MaThucPham,
                         principalTable: "ThucPhams",
-                        principalColumn: "MaThuPham",
+                        principalColumn: "MaThucPham",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ChiTietKiemKes_PhieuKiemKes_SoPhieuKiemKe",
@@ -416,7 +412,7 @@ namespace DATN.Migrations
                         name: "FK_ChiTietYeuCaus_ThucPhams_MaThucPham",
                         column: x => x.MaThucPham,
                         principalTable: "ThucPhams",
-                        principalColumn: "MaThuPham",
+                        principalColumn: "MaThucPham",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ChiTietYeuCaus_PhieuYeuCaus_SoPhieuYeuCau",
@@ -454,6 +450,41 @@ namespace DATN.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ChiTietGiaos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SoPhieuGiao = table.Column<string>(nullable: true),
+                    MaThucPham = table.Column<string>(nullable: true),
+                    MaNhaCungCap = table.Column<string>(nullable: true),
+                    SoLuong = table.Column<float>(nullable: false),
+                    DonGia = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChiTietGiaos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChiTietGiaos_NhaCungCaps_MaNhaCungCap",
+                        column: x => x.MaNhaCungCap,
+                        principalTable: "NhaCungCaps",
+                        principalColumn: "MaNhaCungCap",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ChiTietGiaos_ThucPhams_MaThucPham",
+                        column: x => x.MaThucPham,
+                        principalTable: "ThucPhams",
+                        principalColumn: "MaThucPham",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ChiTietGiaos_PhieuGiaos_SoPhieuGiao",
+                        column: x => x.SoPhieuGiao,
+                        principalTable: "PhieuGiaos",
+                        principalColumn: "SoPhieuGiao",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ChiTietBanGiaos",
                 columns: table => new
                 {
@@ -470,7 +501,7 @@ namespace DATN.Migrations
                         name: "FK_ChiTietBanGiaos_ThucPhams_MaThucPham",
                         column: x => x.MaThucPham,
                         principalTable: "ThucPhams",
-                        principalColumn: "MaThuPham",
+                        principalColumn: "MaThucPham",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ChiTietBanGiaos_PhieuBanGiaos_SoPhieuBanGiao",
@@ -497,6 +528,11 @@ namespace DATN.Migrations
                 column: "SoPhieuBanGiao");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChiTietCungCaps_MaNhaCungCap",
+                table: "ChiTietCungCaps",
+                column: "MaNhaCungCap");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChiTietCungCaps_MaThucPham",
                 table: "ChiTietCungCaps",
                 column: "MaThucPham");
@@ -505,6 +541,11 @@ namespace DATN.Migrations
                 name: "IX_ChiTietCungCaps_SoPhieuCungCap",
                 table: "ChiTietCungCaps",
                 column: "SoPhieuCungCap");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChiTietGiaos_MaNhaCungCap",
+                table: "ChiTietGiaos",
+                column: "MaNhaCungCap");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChiTietGiaos_MaThucPham",
@@ -560,6 +601,11 @@ namespace DATN.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_HocSinhs_MaLop",
+                table: "HocSinhs",
+                column: "MaLop");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MonAns_MaNhanVien",
                 table: "MonAns",
                 column: "MaNhanVien");
@@ -576,9 +622,9 @@ namespace DATN.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PhieuAns_MaGiaoVien",
+                name: "IX_PhieuAns_MaGV",
                 table: "PhieuAns",
-                column: "MaGiaoVien");
+                column: "MaGV");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PhieuBanGiaos_MaNhanVien",
@@ -593,24 +639,21 @@ namespace DATN.Migrations
                 filter: "[SoPhieuYeuCau] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PhieuCungCaps_MaNhaCungCap",
-                table: "PhieuCungCaps",
-                column: "MaNhaCungCap");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PhieuCungCaps_MaNhanVien",
                 table: "PhieuCungCaps",
                 column: "MaNhanVien");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PhieuGiaos_MaNhaCungCap",
-                table: "PhieuGiaos",
-                column: "MaNhaCungCap");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PhieuGiaos_MaNhanVien",
                 table: "PhieuGiaos",
                 column: "MaNhanVien");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PhieuGiaos_SoPhieuCungCap",
+                table: "PhieuGiaos",
+                column: "SoPhieuCungCap",
+                unique: true,
+                filter: "[SoPhieuCungCap] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PhieuKiemKes_MaNhanVien",
@@ -647,13 +690,16 @@ namespace DATN.Migrations
                 name: "DinhLuongMonAns");
 
             migrationBuilder.DropTable(
+                name: "HocSinhs");
+
+            migrationBuilder.DropTable(
                 name: "PhieuAns");
 
             migrationBuilder.DropTable(
                 name: "PhieuBanGiaos");
 
             migrationBuilder.DropTable(
-                name: "PhieuCungCaps");
+                name: "NhaCungCaps");
 
             migrationBuilder.DropTable(
                 name: "PhieuGiaos");
@@ -674,7 +720,7 @@ namespace DATN.Migrations
                 name: "PhieuYeuCaus");
 
             migrationBuilder.DropTable(
-                name: "NhaCungCaps");
+                name: "PhieuCungCaps");
 
             migrationBuilder.DropTable(
                 name: "Classes");

@@ -17,10 +17,11 @@ namespace DATN.Data.Configuration
             //thiet lap quan he
             builder.HasOne<NhanVien>(pg => pg.NhanVien)
                 .WithMany(nv => nv.PhieuGiaos)
-                .HasForeignKey(pg => pg.MaNhanVien);
-            builder.HasOne<NhaCungCap>(pg => pg.NhaCungCap)
-                .WithMany(ncc => ncc.PhieuGiaos)
-                .HasForeignKey(pg => pg.MaNhaCungCap);
+                .HasForeignKey(pg => pg.MaNhanVien)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+            builder.HasOne<PhieuCungCap>(pbg => pbg.PhieuCungCap)
+                .WithOne(pyc => pyc.PhieuGiao)
+                .HasForeignKey<PhieuGiao>(pbg => pbg.SoPhieuCugCap);
         }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DATN.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210408160546_create_Db")]
-    partial class create_Db
+    [Migration("20210531201413_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -85,6 +85,9 @@ namespace DATN.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("MaNhaCungCap")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("MaThucPham")
                         .HasColumnType("nvarchar(450)");
 
@@ -95,6 +98,8 @@ namespace DATN.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MaNhaCungCap");
 
                     b.HasIndex("MaThucPham");
 
@@ -113,6 +118,9 @@ namespace DATN.Migrations
                     b.Property<decimal>("DonGia")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<string>("MaNhaCungCap")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("MaThucPham")
                         .HasColumnType("nvarchar(450)");
 
@@ -123,6 +131,8 @@ namespace DATN.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MaNhaCungCap");
 
                     b.HasIndex("MaThucPham");
 
@@ -189,6 +199,9 @@ namespace DATN.Migrations
                     b.Property<string>("MaLop")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("SoLuong")
+                        .HasColumnType("int");
+
                     b.Property<string>("TenLop")
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
@@ -205,17 +218,11 @@ namespace DATN.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("BuaAn")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("MaMonAn")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("MaThucPham")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("Ngay")
-                        .HasColumnType("datetime2");
 
                     b.Property<float>("SoLuong")
                         .HasColumnType("real");
@@ -258,10 +265,45 @@ namespace DATN.Migrations
                     b.ToTable("GiaoViens");
                 });
 
+            modelBuilder.Entity("DATN.Entities.HocSinh", b =>
+                {
+                    b.Property<int>("Idhs")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DiaChi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DienThoai")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("GioiTinh")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("HoTen")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaLop")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("NgaySinh")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Idhs");
+
+                    b.HasIndex("MaLop");
+
+                    b.ToTable("HocSinhs");
+                });
+
             modelBuilder.Entity("DATN.Entities.MonAn", b =>
                 {
                     b.Property<string>("MaMonAn")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("BuaAn")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MaNhanVien")
                         .HasColumnType("nvarchar(450)");
@@ -324,7 +366,7 @@ namespace DATN.Migrations
                     b.Property<string>("GhiChu")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MaGiaoVien")
+                    b.Property<string>("MaGV")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("NgayLap")
@@ -338,7 +380,7 @@ namespace DATN.Migrations
 
                     b.HasKey("SophieuAn");
 
-                    b.HasIndex("MaGiaoVien");
+                    b.HasIndex("MaGV");
 
                     b.ToTable("PhieuAns");
                 });
@@ -379,9 +421,6 @@ namespace DATN.Migrations
                     b.Property<string>("GhiChu")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MaNhaCungCap")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("MaNhanVien")
                         .HasColumnType("nvarchar(450)");
 
@@ -392,8 +431,6 @@ namespace DATN.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("SoPhieuCugCap");
-
-                    b.HasIndex("MaNhaCungCap");
 
                     b.HasIndex("MaNhanVien");
 
@@ -408,20 +445,22 @@ namespace DATN.Migrations
                     b.Property<string>("GhiChu")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("MaNhaCungCap")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("MaNhanVien")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("NgayLap")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("SoPhieuCungCap")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("SoPhieuGiao");
 
-                    b.HasIndex("MaNhaCungCap");
-
                     b.HasIndex("MaNhanVien");
+
+                    b.HasIndex("SoPhieuCungCap")
+                        .IsUnique()
+                        .HasFilter("[SoPhieuCungCap] IS NOT NULL");
 
                     b.ToTable("PhieuGiaos");
                 });
@@ -474,7 +513,7 @@ namespace DATN.Migrations
 
             modelBuilder.Entity("DATN.Entities.ThucPham", b =>
                 {
-                    b.Property<string>("MaThuPham")
+                    b.Property<string>("MaThucPham")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("DonVi")
@@ -483,7 +522,7 @@ namespace DATN.Migrations
                     b.Property<string>("TenThucPham")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("MaThuPham");
+                    b.HasKey("MaThucPham");
 
                     b.ToTable("ThucPhams");
                 });
@@ -553,6 +592,10 @@ namespace DATN.Migrations
 
             modelBuilder.Entity("DATN.Entities.ChiTietCungCap", b =>
                 {
+                    b.HasOne("DATN.Entities.NhaCungCap", "NhaCungCap")
+                        .WithMany("ChiTietCungCaps")
+                        .HasForeignKey("MaNhaCungCap");
+
                     b.HasOne("DATN.Entities.ThucPham", "ThucPham")
                         .WithMany("ChiTietCungCaps")
                         .HasForeignKey("MaThucPham");
@@ -564,6 +607,10 @@ namespace DATN.Migrations
 
             modelBuilder.Entity("DATN.Entities.ChiTietGiao", b =>
                 {
+                    b.HasOne("DATN.Entities.NhaCungCap", "NhaCungCap")
+                        .WithMany("ChiTietGiaos")
+                        .HasForeignKey("MaNhaCungCap");
+
                     b.HasOne("DATN.Entities.ThucPham", "ThucPham")
                         .WithMany("ChiTietGiaos")
                         .HasForeignKey("MaThucPham");
@@ -619,6 +666,13 @@ namespace DATN.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("DATN.Entities.HocSinh", b =>
+                {
+                    b.HasOne("DATN.Entities.Class", "Class")
+                        .WithMany("HocSinhs")
+                        .HasForeignKey("MaLop");
+                });
+
             modelBuilder.Entity("DATN.Entities.MonAn", b =>
                 {
                     b.HasOne("DATN.Entities.NhanVien", "NhanVien")
@@ -643,7 +697,7 @@ namespace DATN.Migrations
                 {
                     b.HasOne("DATN.Entities.GiaoVien", "GiaoVien")
                         .WithMany("PhieuAns")
-                        .HasForeignKey("MaGiaoVien");
+                        .HasForeignKey("MaGV");
                 });
 
             modelBuilder.Entity("DATN.Entities.PhieuBanGiao", b =>
@@ -659,10 +713,6 @@ namespace DATN.Migrations
 
             modelBuilder.Entity("DATN.Entities.PhieuCungCap", b =>
                 {
-                    b.HasOne("DATN.Entities.NhaCungCap", "NhaCungCap")
-                        .WithMany("PhieuCungCaps")
-                        .HasForeignKey("MaNhaCungCap");
-
                     b.HasOne("DATN.Entities.NhanVien", "NhanVien")
                         .WithMany("PhieuCungCaps")
                         .HasForeignKey("MaNhanVien");
@@ -670,13 +720,13 @@ namespace DATN.Migrations
 
             modelBuilder.Entity("DATN.Entities.PhieuGiao", b =>
                 {
-                    b.HasOne("DATN.Entities.NhaCungCap", "NhaCungCap")
-                        .WithMany("PhieuGiaos")
-                        .HasForeignKey("MaNhaCungCap");
-
                     b.HasOne("DATN.Entities.NhanVien", "NhanVien")
                         .WithMany("PhieuGiaos")
                         .HasForeignKey("MaNhanVien");
+
+                    b.HasOne("DATN.Entities.PhieuCungCap", "PhieuCungCap")
+                        .WithOne("PhieuGiao")
+                        .HasForeignKey("DATN.Entities.PhieuGiao", "SoPhieuCungCap");
                 });
 
             modelBuilder.Entity("DATN.Entities.PhieuKiemKe", b =>

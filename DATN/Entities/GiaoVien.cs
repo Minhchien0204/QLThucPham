@@ -7,6 +7,10 @@ namespace DATN.Entities
 {
     public class GiaoVien
     {
+        public GiaoVien()
+        {
+            PhieuAns = new HashSet<PhieuAn>();
+        }
         public string MaGV { get; set; }
         public string TrinhDo { get; set; }
         public DateTime NgayVao { get; set; }
@@ -14,7 +18,7 @@ namespace DATN.Entities
         public string MaLop { get; set; }
         public virtual User User { get; set; }
         public virtual Class Class { get; set; }
-        public ICollection<PhieuAn> PhieuAns { get; set; }
+        public virtual ICollection<PhieuAn> PhieuAns { get; set; }
 
     }
 }

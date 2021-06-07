@@ -7,15 +7,23 @@ namespace DATN.Entities
 {
     public class ThucPham
     {
-        public string MaThuPham { get; set; }
-
+        public ThucPham()
+        {
+            DinhLuongMonAns = new HashSet<DinhLuongMonAn>();
+            ChiTietYeuCaus = new HashSet<ChiTietYeuCau>();
+            ChiTietCungCaps = new HashSet<ChiTietCungCap>();
+            ChiTietBanGiaos = new HashSet<ChiTietBanGiao>();
+            ChiTietGiaos = new HashSet<ChiTietGiao>();
+            ChiTietKiemKes = new HashSet<ChiTietKiemKe>();
+        }
+        public string MaThucPham { get; set; }
         public string TenThucPham { get; set; }
         public string DonVi { get; set; }
-        public ICollection<ChiTietYeuCau> ChiTietYeuCaus { get; set; }
-        public ICollection<ChiTietCungCap> ChiTietCungCaps { get; set; }
-        public ICollection<ChiTietKiemKe> ChiTietKiemKes { get; set; }
-        public ICollection<ChiTietGiao> ChiTietGiaos { get; set; }
-        public ICollection<ChiTietBanGiao> ChiTietBanGiaos { get; set; }
-        public ICollection<DinhLuongMonAn> DinhLuongMonAns { get; set; }
+        public virtual ICollection<ChiTietYeuCau> ChiTietYeuCaus { get; set; }
+        public virtual ICollection<ChiTietCungCap> ChiTietCungCaps { get; set; }
+        public virtual ICollection<ChiTietKiemKe> ChiTietKiemKes { get; set; }
+        public virtual ICollection<ChiTietGiao> ChiTietGiaos { get; set; }
+        public virtual ICollection<ChiTietBanGiao> ChiTietBanGiaos { get; set; }
+        public virtual ICollection<DinhLuongMonAn> DinhLuongMonAns { get; set; }
     } 
 }
